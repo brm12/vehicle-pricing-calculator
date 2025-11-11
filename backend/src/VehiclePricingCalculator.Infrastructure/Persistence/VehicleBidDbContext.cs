@@ -12,14 +12,21 @@ internal class VehicleBidDbContext(DbContextOptions<VehicleBidDbContext> options
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<Fee>()
-            .HasOne(f => f.FeeType)
+        var feeEntity = modelBuilder.Entity<Fee>();
+
+        feeEntity.HasOne(f => f.FeeType)
             .WithMany()
             .HasForeignKey(f => f.FeeTypeId);
 
-        modelBuilder.Entity<Fee>()
-            .HasOne(f => f.VehicleType)
+        feeEntity.HasOne(f => f.VehicleType)
             .WithMany()
             .HasForeignKey(f => f.VehicleTypeId);
+
+        feeEntity.Property(f => f.Percentage).HasPrecision(18, 2);
+        feeEntity.Property(f => f.MinPriceAmount).HasPrecision(18, 2);
+        feeEntity.Property(f => f.MaxPriceAmount).HasPrecision(18, 2);
+        feeEntity.Property(f => f.MinFeeAmount).HasPrecision(18, 2);
+        feeEntity.Property(f => f.MaxFeeAmount).HasPrecision(18, 2);
+        feeEntity.Property(f => f.FixedAmount).HasPrecision(18, 2);
     }
 }
